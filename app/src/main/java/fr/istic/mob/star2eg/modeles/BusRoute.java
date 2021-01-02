@@ -6,7 +6,6 @@ package fr.istic.mob.star2eg.modeles;
  */
 public class BusRoute {
 
-
     private String route_id;
     private String shortName;
     private String longName;

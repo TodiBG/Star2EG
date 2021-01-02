@@ -1,3 +1,8 @@
 <resources>
-    <string name="app_name">Star2eg</string>
+    <string name="app_name">Star2EG</string>
+    <string name="next">Next</string>
+    <string name="back">Back</string>
+    <string name="select_time_and_date">SELECT TIME AND DATE </string>
+    <string name="select_date">Select Date ...</string>
+    <string name="select_time">Select Time ...</string>
 </resources>

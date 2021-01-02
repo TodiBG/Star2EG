@@ -1,0 +1,88 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".fragments.Fragment1"
+    android:orientation="vertical"
+    android:background="@color/colorPrimary">
+
+
+    <LinearLayout android:layout_height="wrap_content"
+        android:layout_width="match_parent"
+        android:orientation="vertical"
+        android:layout_marginTop="50dp">
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:text="@string/select_time_and_date"
+            android:textSize="22dp"
+            android:textStyle="bold"
+            android:gravity="center" />
+
+    </LinearLayout>
+
+
+
+
+    <LinearLayout android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:gravity="center">
+
+
+        <EditText
+            android:id="@+id/date"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerHorizontal="true"
+            android:layout_margin="8dp"
+            android:background="#d4d4d4"
+            android:hint="Select Date..."
+            android:padding="15dp"
+            android:textColor="#897"
+            android:textColorHint="#090"
+            android:textSize="20sp"
+            android:textStyle="bold"/>
+
+        <EditText
+            android:id="@+id/time"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerHorizontal="true"
+            android:layout_margin="8dp"
+            android:background="#d4d4d4"
+            android:hint="Select Time..."
+            android:padding="15dp"
+            android:textColor="#897"
+            android:textColorHint="#090"
+            android:textSize="20sp"
+            android:textStyle="bold"/>
+
+    </LinearLayout>
+
+
+    <LinearLayout android:layout_height="wrap_content"
+        android:layout_width="match_parent"
+        android:orientation="horizontal"
+        android:layout_marginTop="20dp"
+        android:gravity="center_horizontal">
+
+        <Button
+            android:id="@+id/next"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:text="@string/next"
+            android:gravity="center"/>
+
+    </LinearLayout>
+
+
+
+
+
+
+
+
+</LinearLayout>

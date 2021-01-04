@@ -2,13 +2,17 @@ package fr.istic.mob.star2eg.fragments;
 
 import android.app.DatePickerDialog;
 import android.app.TimePickerDialog;
+import android.database.Cursor;
+import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ArrayAdapter;
 import android.widget.DatePicker;
 import android.widget.EditText;
+import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.TimePicker;
 
@@ -19,16 +23,28 @@ import androidx.fragment.app.FragmentTransaction;
 
 import fr.istic.mob.star2eg.MainActivity;
 import fr.istic.mob.star2eg.R;
+import fr.istic.mob.star2eg.modeles.BusRoute;
+import fr.istic.mob.star2eg.modeles.StarContract;
+
+import java.util.ArrayList;
 import java.util.Calendar ;
+import java.util.List;
 
 public class Fragment1 extends Fragment {
-
+    private MainActivity activity ;
     private EditText date ;
     private DatePickerDialog datePickerDialog;
     private EditText time ;
     private TimePickerDialog timePickerDialog ;
     private int hours = 0 ;
     private int minutes = 0 ;
+    private Spinner spinner  ;
+    private Spinner spinner1  ;
+    private BusRoute[] listBusRoute ;
+    List<String> bus ;
+    public Fragment1(MainActivity activity){
+        this.activity  = activity ;
+    }
 
 
     @Override
@@ -45,12 +61,7 @@ public class Fragment1 extends Fragment {
 
         getView().findViewById(R.id.next).setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onClick(View v) {
-                FragmentTransaction fragmentTransaction = getActivity().getSupportFragmentManager().beginTransaction() ;
-                fragmentTransaction.setCustomAnimations(R.anim.enter_right_to_left,R.anim.exit_right_to_left,R.anim.enter_left_to_right, R.anim.exit_left_to_right)
-                        .replace(R.id.frameLayout, MainActivity.getFragment(1)) ;
-                fragmentTransaction.commit() ;
-            }
+            public void onClick(View v) { activity.goToNextFragment(1) ; }
         });
 
         date = (EditText)getView().findViewById(R.id.date);
@@ -65,6 +76,31 @@ public class Fragment1 extends Fragment {
         // Create TimePickerDialog:
         timePickerDialog = new TimePickerDialog(getContext(), timeSetListener, Calendar.HOUR_OF_DAY, Calendar.MINUTE, true);
 
+        spinner1 = (Spinner)getView().findViewById(R.id.spinner1) ;
+        spinner = (Spinner)getView().findViewById(R.id.spinner) ;
+
+        listBusRoute =  getBusRoute() ;
+
+        /*
+        bus.add( getBusRoute().get(0).getLongName() ) ;
+        bus.add(getBusRoute().get(1).getLongName()) ;
+        bus.add(getBusRoute().get(2).getLongName()) ;
+
+         */
+
+
+
+
+        ArrayAdapter<BusRoute> arrayAdapte  = new ArrayAdapter<>(getContext(), R.layout.item, listBusRoute) ;
+        arrayAdapte.setDropDownViewResource(android.R.layout.simple_expandable_list_item_1);
+        spinner.setAdapter(arrayAdapte);
+
+
+        /*ArrayAdapter<String> arrayAdapteBus = new ArrayAdapter<>(getContext(), R.layout.item, bus) ;
+        arrayAdapteBus.setDropDownViewResource(android.R.layout.simple_expandable_list_item_1);
+        spinner1.setAdapter(arrayAdapteBus);
+
+         */
     }
 
 
@@ -109,6 +145,47 @@ public class Fragment1 extends Fragment {
             timePickerDialog.show();
         }
     } ;
+
+
+
+    public  BusRoute[] getBusRoute() {
+        Cursor cursor = this.activity.getContentResolver().query(StarContract.BusRoutes.CONTENT_URI, null, null, null,null);
+        BusRoute[] busRoutes = new BusRoute[cursor.getCount()];
+
+        int i = 0 ;
+
+        if( cursor != null) {
+          while (cursor.moveToNext()) {
+                  BusRoute item = new BusRoute(
+                        cursor.getString(cursor.getColumnIndex(StarContract.BusRoutes.BusRouteColumns.ROUTE_ID)),
+                        cursor.getString(cursor.getColumnIndex(StarContract.BusRoutes.BusRouteColumns.SHORT_NAME)),
+                        cursor.getString(cursor.getColumnIndex(StarContract.BusRoutes.BusRouteColumns.LONG_NAME)),
+                        cursor.getString(cursor.getColumnIndex(StarContract.BusRoutes.BusRouteColumns.DESCRIPTION)),
+                        cursor.getString(cursor.getColumnIndex(StarContract.BusRoutes.BusRouteColumns.TYPE)),
+                        cursor.getString(cursor.getColumnIndex(StarContract.BusRoutes.BusRouteColumns.COLOR)),
+                        cursor.getString(cursor.getColumnIndex(StarContract.BusRoutes.BusRouteColumns.TEXT_COLOR))
+                );
+                busRoutes[i] = item ;
+
+              i++ ;
+            }
+        }
+
+        System.out.println("-------------- result contains "+i+" ligne - ----------------------");
+        cursor.close();
+        return busRoutes;
+    }
+
+
+
+
+
+
+
+
+
+
+
 
 
 

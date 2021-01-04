@@ -4,8 +4,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".fragments.Fragment1"
-    android:orientation="vertical"
-    android:background="@color/colorPrimary">
+    android:orientation="vertical">
 
 
     <LinearLayout android:layout_height="wrap_content"
@@ -44,7 +43,8 @@
             android:textColor="#897"
             android:textColorHint="#090"
             android:textSize="20sp"
-            android:textStyle="bold"/>
+            android:textStyle="bold"
+            android:gravity="center"/>
 
         <EditText
             android:id="@+id/time"
@@ -57,16 +57,115 @@
             android:padding="15dp"
             android:textColor="#897"
             android:textColorHint="#090"
-            android:textSize="20sp"
-            android:textStyle="bold"/>
+            android:textSize="23sp"
+            android:textStyle="bold"
+            android:gravity="center"/>
+    </LinearLayout>
+
+
+
+
+
+    <LinearLayout android:layout_height="wrap_content"
+        android:layout_width="match_parent"
+        android:paddingTop="15dp"
+        android:paddingBottom="15dp"
+        android:layout_marginHorizontal="30dp"
+        android:orientation="vertical"
+        android:gravity="center_horizontal">
+
+        <LinearLayout android:layout_height="wrap_content"
+            android:layout_width="match_parent"
+            android:gravity="center">
+
+            <TextView android:layout_height="match_parent"
+                android:layout_width="wrap_content"
+                android:text="@string/select_bus_route"
+                android:textSize="23dp"
+                android:textStyle="bold">
+
+            </TextView>
+
+        </LinearLayout>
+
+
+        <LinearLayout android:layout_height="wrap_content"
+            android:layout_width="match_parent"
+            android:gravity="center_horizontal"
+            android:paddingTop="15dp"
+            android:paddingBottom="15dp"
+            android:background="#d4d4d4">
+
+            <Spinner android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:id="@+id/spinner1"
+                android:paddingHorizontal="5dp"
+                android:spinnerMode="dialog">
+            </Spinner>
+        </LinearLayout>
+
+
 
     </LinearLayout>
+
+
+
+
+
+
+    <LinearLayout android:layout_height="wrap_content"
+        android:layout_width="match_parent"
+        android:paddingTop="15dp"
+        android:paddingBottom="15dp"
+        android:layout_marginHorizontal="30dp"
+        android:orientation="vertical"
+        android:gravity="center_horizontal">
+
+        <LinearLayout android:layout_height="wrap_content"
+            android:layout_width="match_parent"
+            android:gravity="center">
+
+            <TextView android:layout_height="match_parent"
+                android:layout_width="wrap_content"
+                android:text="@string/select_bus_direction"
+                android:textSize="23dp"
+                android:textStyle="bold">
+
+            </TextView>
+
+        </LinearLayout>
+
+
+        <LinearLayout android:layout_height="wrap_content"
+            android:layout_width="match_parent"
+            android:gravity="center_horizontal"
+            android:paddingTop="15dp"
+            android:paddingBottom="15dp"
+            android:background="#d4d4d4">
+
+            <Spinner android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:id="@+id/spinner"
+                android:paddingHorizontal="5dp"
+                android:spinnerMode="dialog">
+            </Spinner>
+        </LinearLayout>
+
+
+
+    </LinearLayout>
+
+
+
+
+
+
 
 
     <LinearLayout android:layout_height="wrap_content"
         android:layout_width="match_parent"
         android:orientation="horizontal"
-        android:layout_marginTop="20dp"
+        android:layout_marginTop="50dp"
         android:gravity="center_horizontal">
 
         <Button

@@ -5,4 +5,7 @@
     <string name="select_time_and_date">SELECT TIME AND DATE </string>
     <string name="select_date">Select Date ...</string>
     <string name="select_time">Select Time ...</string>
+    <string name="select_bus_route">SELECT THE BUS LINE </string>
+    <string name="select_bus_direction">SELECT THE DIRECTION </string>
+    <string name="select_bus_stop">SELECT THE  BUS STOP</string>
 </resources>

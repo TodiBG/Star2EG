@@ -4,13 +4,17 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentTransaction;
 
+import android.app.DatePickerDialog;
+import android.app.TimePickerDialog;
 import android.database.Cursor;
 import android.net.Uri;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.Spinner;
 
 import java.util.ArrayList;
@@ -19,13 +23,23 @@ import java.util.List;
 import fr.istic.mob.star2eg.fragments.Fragment1;
 import fr.istic.mob.star2eg.fragments.Fragment2;
 import fr.istic.mob.star2eg.fragments.Fragment3;
+import fr.istic.mob.star2eg.modeles.BusRoute;
 import fr.istic.mob.star2eg.modeles.StarContract;
 
 public class MainActivity extends AppCompatActivity {
 
     private static List<Fragment> fragmentsList= new ArrayList<>() ;
-    private int currentFragmentNumber = 0 ;
     private static int NB_FRAGMENTS = 3 ;
+
+
+    private String selectedDate ;
+    private int time_hours = 0 ;
+    private int time_minutes = 0 ;
+    private BusRoute selectedBusRoute ;
+    private List<String>  directionsList;
+    private int directionId = 0 ;
+
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -59,12 +73,57 @@ public class MainActivity extends AppCompatActivity {
          *
          */
 
+    }
 
 
+    /**
+     * Gets informations from Fragment1 and share them with other Fragments
+     * @param selectedDate, selected date  in Fragment1
+     * @param time_hours, hour selected in Fragment1
+     * @param time_minutes minute selected in Fragment1
+     * @param selectedBusRoute , BusRoute selected in Fragment1
+     * @param directionsList, List of directions for the BusRoute selected in Fragment1
+     * @param directionId, Id of direction selected in Fragment1
+     */
+    public void saveInfoFromFragment_1(String selectedDate, int time_hours, int time_minutes, BusRoute selectedBusRoute, List<String> directionsList, int directionId){
+
+        this.selectedDate  = selectedDate;
+        this.time_hours = time_hours ;
+        this.time_minutes = time_minutes ;
+        this.selectedBusRoute = selectedBusRoute;
+        this.directionsList = directionsList;
+        this.directionId = directionId ;
 
 
+        Log.i("Info","Info from Fragment1  : date = "+selectedDate+" , hour = "+time_hours+" minute = "+time_minutes+" , bus =  "+selectedBusRoute.getShortName()+", direction =  "+directionsList.get(directionId));
 
     }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
     /**
      @param fragmentIndex

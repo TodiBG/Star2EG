@@ -9,7 +9,9 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
+import android.widget.Button;
 import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.Spinner;
@@ -23,6 +25,7 @@ import androidx.fragment.app.FragmentTransaction;
 
 import fr.istic.mob.star2eg.MainActivity;
 import fr.istic.mob.star2eg.R;
+import fr.istic.mob.star2eg.adapters.BusRouteAdapter;
 import fr.istic.mob.star2eg.modeles.BusRoute;
 import fr.istic.mob.star2eg.modeles.StarContract;
 
@@ -31,6 +34,7 @@ import java.util.Calendar ;
 import java.util.List;
 
 public class Fragment1 extends Fragment {
+
     private MainActivity activity ;
     private EditText date ;
     private DatePickerDialog datePickerDialog;
@@ -38,10 +42,13 @@ public class Fragment1 extends Fragment {
     private TimePickerDialog timePickerDialog ;
     private int hours = 0 ;
     private int minutes = 0 ;
-    private Spinner spinner  ;
-    private Spinner spinner1  ;
-    private BusRoute[] listBusRoute ;
-    List<String> bus ;
+    private Spinner spinner_bus_line  ;
+    private Spinner spinner_direction  ;
+    private List<BusRoute> listBusRoute ;
+    private BusRoute selectedBusRoute ;
+    private int directionId = 0 ;
+    private List<String>  directionsList;
+    private Button next ;
     public Fragment1(MainActivity activity){
         this.activity  = activity ;
     }
@@ -51,6 +58,7 @@ public class Fragment1 extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         return inflater.inflate(R.layout.fragment_1, container, false);
+
     }
 
 
@@ -59,9 +67,13 @@ public class Fragment1 extends Fragment {
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
 
-        getView().findViewById(R.id.next).setOnClickListener(new View.OnClickListener() {
+        this.next = getView().findViewById(R.id.next);
+        this.next.setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onClick(View v) { activity.goToNextFragment(1) ; }
+            public void onClick(View v) {
+                activity.saveInfoFromFragment_1(date.getText().toString(),hours,minutes,selectedBusRoute, directionsList, directionId) ;
+                activity.goToNextFragment(1) ;
+            }
         });
 
         date = (EditText)getView().findViewById(R.id.date);
@@ -76,31 +88,24 @@ public class Fragment1 extends Fragment {
         // Create TimePickerDialog:
         timePickerDialog = new TimePickerDialog(getContext(), timeSetListener, Calendar.HOUR_OF_DAY, Calendar.MINUTE, true);
 
-        spinner1 = (Spinner)getView().findViewById(R.id.spinner1) ;
-        spinner = (Spinner)getView().findViewById(R.id.spinner) ;
+        spinner_bus_line = (Spinner)getView().findViewById(R.id.spinner_line) ;
+        spinner_direction = (Spinner)getView().findViewById(R.id.spinner_direction) ;
+        this.spinner_bus_line.setEnabled(false);
+        this.spinner_direction.setEnabled(false);
+        this.next.setVisibility(View.INVISIBLE);
 
         listBusRoute =  getBusRoute() ;
+        // Adapter"
+        BusRouteAdapter adapter = new BusRouteAdapter(this.activity,
+                R.layout.bus_route_adapter_item,
+                R.id.textViewItemNameParent,
+                R.id.textView_item_name,
+                this.listBusRoute);
 
-        /*
-        bus.add( getBusRoute().get(0).getLongName() ) ;
-        bus.add(getBusRoute().get(1).getLongName()) ;
-        bus.add(getBusRoute().get(2).getLongName()) ;
+        this.spinner_bus_line.setAdapter(adapter);
 
-         */
-
-
-
-
-        ArrayAdapter<BusRoute> arrayAdapte  = new ArrayAdapter<>(getContext(), R.layout.item, listBusRoute) ;
-        arrayAdapte.setDropDownViewResource(android.R.layout.simple_expandable_list_item_1);
-        spinner.setAdapter(arrayAdapte);
-
-
-        /*ArrayAdapter<String> arrayAdapteBus = new ArrayAdapter<>(getContext(), R.layout.item, bus) ;
-        arrayAdapteBus.setDropDownViewResource(android.R.layout.simple_expandable_list_item_1);
-        spinner1.setAdapter(arrayAdapteBus);
-
-         */
+        this.spinner_bus_line.setOnItemSelectedListener(bus_line_listener);
+        this.spinner_direction.setOnItemSelectedListener(direction_listener) ;
     }
 
 
@@ -119,7 +124,10 @@ public class Fragment1 extends Fragment {
                         public void onDateSet(DatePicker view, int year, int monthOfYear, int dayOfMonth) {
                             // set day of month , month and year value in the edit text
                             date.setText(dayOfMonth + "/"  + (monthOfYear + 1) + "/" + year);
-                            date.setFocusable(false);
+
+                            if(!time.getText().toString().equals("")){
+                                spinner_bus_line.setEnabled(true);
+                            }
                         }
                     }, mYear, mMonth, mDay);
             datePickerDialog.show();
@@ -130,14 +138,19 @@ public class Fragment1 extends Fragment {
 
 
     TimePickerDialog.OnTimeSetListener timeSetListener = new TimePickerDialog.OnTimeSetListener() {
-
         @Override
         public void onTimeSet(TimePicker view, int hourOfDay, int minute) {
             time.setText(hourOfDay + ":" + minute );
             hours = hourOfDay;
             minutes = minute;
+
+            if(!date.getText().toString().equals("")){
+                spinner_bus_line.setEnabled(true);
+            }
         }
     };
+
+
 
     View.OnClickListener timePicker = new View.OnClickListener() {
         @Override
@@ -147,12 +160,62 @@ public class Fragment1 extends Fragment {
     } ;
 
 
+    boolean not_execution_line_listener = false ;
+   AdapterView.OnItemSelectedListener  bus_line_listener  = new AdapterView.OnItemSelectedListener() {
+       @Override
+       public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
 
-    public  BusRoute[] getBusRoute() {
+           selectedBusRoute  = listBusRoute.get(position) ;
+
+           directionsList = new ArrayList<>() ;
+
+           String[]splitArray = selectedBusRoute.getLongName().split("<>") ;
+
+           int length = splitArray.length ;
+
+           if( length > 1 ){
+               directionsList.add(splitArray[length-1]);
+               directionsList.add(splitArray[0]);
+           }
+
+
+           if(not_execution_line_listener) {
+               spinner_direction.setEnabled(true);
+           }
+           not_execution_line_listener = true ;
+
+
+           ArrayAdapter<String> arrayAdapte  = new ArrayAdapter<>(getActivity(), R.layout.item, directionsList) ;
+           arrayAdapte.setDropDownViewResource(android.R.layout.simple_expandable_list_item_1);
+           spinner_direction.setAdapter(arrayAdapte);
+       }
+
+       @Override
+       public void onNothingSelected(AdapterView<?> parent) {  }
+   };
+
+    boolean not_execution_direction_listener = false ;
+    AdapterView.OnItemSelectedListener  direction_listener  = new AdapterView.OnItemSelectedListener() {
+        @Override
+        public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+            directionId = position ;
+            if( not_execution_direction_listener){
+                next.setVisibility(View.VISIBLE);
+            }
+
+            not_execution_direction_listener = true ;
+        }
+
+        @Override
+        public void onNothingSelected(AdapterView<?> parent) {  }
+    };
+
+
+
+
+    public  List<BusRoute> getBusRoute() {
         Cursor cursor = this.activity.getContentResolver().query(StarContract.BusRoutes.CONTENT_URI, null, null, null,null);
-        BusRoute[] busRoutes = new BusRoute[cursor.getCount()];
-
-        int i = 0 ;
+        List<BusRoute> busRoutes = new ArrayList<>();
 
         if( cursor != null) {
           while (cursor.moveToNext()) {
@@ -165,29 +228,16 @@ public class Fragment1 extends Fragment {
                         cursor.getString(cursor.getColumnIndex(StarContract.BusRoutes.BusRouteColumns.COLOR)),
                         cursor.getString(cursor.getColumnIndex(StarContract.BusRoutes.BusRouteColumns.TEXT_COLOR))
                 );
-                busRoutes[i] = item ;
-
-              i++ ;
+                busRoutes.add(item) ;
             }
         }
 
-        System.out.println("-------------- result contains "+i+" ligne - ----------------------");
+        int i = busRoutes.size() ;
+        if(i != 0){busRoutes.remove(i-1)  ; }
+
         cursor.close();
         return busRoutes;
     }
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 
 

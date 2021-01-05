@@ -8,4 +8,8 @@
     <string name="select_bus_route">SELECT THE BUS LINE </string>
     <string name="select_bus_direction">SELECT THE DIRECTION </string>
     <string name="select_bus_stop">SELECT THE  BUS STOP</string>
+    <string name="line">Line  : </string>
+    <string name="direction">Direction  : </string>
+    <string name="select_stop_time">SELECT A STOP TIME </string>
+    <string name="stop">Stop  : </string>
 </resources>

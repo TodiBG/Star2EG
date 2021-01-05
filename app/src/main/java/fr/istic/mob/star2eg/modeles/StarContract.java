@@ -49,6 +49,7 @@ public interface StarContract {
         String CONTENT_ITEM_TYPE = "vnd.android.cursor.item/vnd.fr.istic.mob.stareg.stop";
 
         interface StopColumns extends BaseColumns {
+            String STOP_ID = "stop_id";
             String NAME = "stop_name";
             String DESCRIPTION = "stop_desc";
             String LATITUDE = "stop_lat";

@@ -40,8 +40,7 @@ public class Fragment1 extends Fragment {
     private DatePickerDialog datePickerDialog;
     private EditText time ;
     private TimePickerDialog timePickerDialog ;
-    private int hours = 0 ;
-    private int minutes = 0 ;
+    private String full_time = "" ;
     private Spinner spinner_bus_line  ;
     private Spinner spinner_direction  ;
     private List<BusRoute> listBusRoute ;
@@ -71,7 +70,7 @@ public class Fragment1 extends Fragment {
         this.next.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                activity.saveInfoFromFragment_1(date.getText().toString(),hours,minutes,selectedBusRoute, directionsList, directionId) ;
+                activity.saveInfoFromFragment_1(date.getText().toString(),full_time,selectedBusRoute, directionsList, directionId) ;
                 activity.goToNextFragment(1) ;
             }
         });
@@ -90,8 +89,9 @@ public class Fragment1 extends Fragment {
 
         spinner_bus_line = (Spinner)getView().findViewById(R.id.spinner_line) ;
         spinner_direction = (Spinner)getView().findViewById(R.id.spinner_direction) ;
-        this.spinner_bus_line.setEnabled(false);
-        this.spinner_direction.setEnabled(false);
+
+
+
         this.next.setVisibility(View.INVISIBLE);
 
         listBusRoute =  getBusRoute() ;
@@ -140,9 +140,21 @@ public class Fragment1 extends Fragment {
     TimePickerDialog.OnTimeSetListener timeSetListener = new TimePickerDialog.OnTimeSetListener() {
         @Override
         public void onTimeSet(TimePicker view, int hourOfDay, int minute) {
-            time.setText(hourOfDay + ":" + minute );
-            hours = hourOfDay;
-            minutes = minute;
+
+            String  hours = "";
+            String min = "" ;
+
+            if(hourOfDay<10 ){ hours = "0"+hourOfDay ;  }
+            else { hours = ""+hourOfDay ;   }
+
+            if(minute<10 ){ min = "0"+minute ;}
+            else {  min = ""+minute ; }
+
+            full_time = hours+":"+min+":00";
+
+            time.setText(full_time);
+
+
 
             if(!date.getText().toString().equals("")){
                 spinner_bus_line.setEnabled(true);

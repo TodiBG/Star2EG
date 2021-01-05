@@ -33,7 +33,7 @@ public class BusRoute {
         this.shortName = shortName;
     }
 
-    public String getRoute_id() {
+    public String getId() {
         return route_id;
     }
 

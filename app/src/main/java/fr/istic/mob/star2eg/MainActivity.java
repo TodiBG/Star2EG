@@ -17,14 +17,23 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Spinner;
 
+import java.text.DateFormat;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Locale;
+import java.util.Map;
 
 import fr.istic.mob.star2eg.fragments.Fragment1;
 import fr.istic.mob.star2eg.fragments.Fragment2;
 import fr.istic.mob.star2eg.fragments.Fragment3;
 import fr.istic.mob.star2eg.modeles.BusRoute;
 import fr.istic.mob.star2eg.modeles.StarContract;
+import fr.istic.mob.star2eg.modeles.Stop;
+import fr.istic.mob.star2eg.modeles.StopTime;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -33,11 +42,12 @@ public class MainActivity extends AppCompatActivity {
 
 
     private String selectedDate ;
-    private int time_hours = 0 ;
-    private int time_minutes = 0 ;
+    private String full_time ;
     private BusRoute selectedBusRoute ;
     private List<String>  directionsList;
     private int directionId = 0 ;
+    private Stop selectedStop ;
+    private StopTime selectedStopTime ;
 
 
 
@@ -53,15 +63,6 @@ public class MainActivity extends AppCompatActivity {
         selectFragment(fragmentsList.get(0));
 
 
-        Cursor cursor = getContentResolver().query(StarContract.BusRoutes.CONTENT_URI, null, null, null,null);
-
-        int i = 0 ;
-        while (cursor.moveToNext()){
-
-            i++ ;
-        }
-
-        System.out.println(" ----------------- cursor moves "+i+" times ----------------- ");
 
 
         /**
@@ -79,25 +80,107 @@ public class MainActivity extends AppCompatActivity {
     /**
      * Gets informations from Fragment1 and share them with other Fragments
      * @param selectedDate, selected date  in Fragment1
-     * @param time_hours, hour selected in Fragment1
-     * @param time_minutes minute selected in Fragment1
+     * @param time, time selected in Fragment1
      * @param selectedBusRoute , BusRoute selected in Fragment1
      * @param directionsList, List of directions for the BusRoute selected in Fragment1
      * @param directionId, Id of direction selected in Fragment1
      */
-    public void saveInfoFromFragment_1(String selectedDate, int time_hours, int time_minutes, BusRoute selectedBusRoute, List<String> directionsList, int directionId){
+    public void saveInfoFromFragment_1(String selectedDate, String time, BusRoute selectedBusRoute, List<String> directionsList, int directionId){
 
         this.selectedDate  = selectedDate;
-        this.time_hours = time_hours ;
-        this.time_minutes = time_minutes ;
+        this.full_time = time;
         this.selectedBusRoute = selectedBusRoute;
         this.directionsList = directionsList;
         this.directionId = directionId ;
 
 
-        Log.i("Info","Info from Fragment1  : date = "+selectedDate+" , hour = "+time_hours+" minute = "+time_minutes+" , bus =  "+selectedBusRoute.getShortName()+", direction =  "+directionsList.get(directionId));
+        Log.i("Info","Info from Fragment1  : date = "+selectedDate+" , Time = "+time+" , bus =  "+selectedBusRoute.getShortName()+", direction =  "+directionsList.get(directionId));
 
     }
+
+    /**
+     * Gets informations from Fragment2 and share them with other Fragments
+     * @param stop, selected stop in Fragment2
+     */
+    public void saveInfoFromFragment_2(Stop stop){
+        this.selectedStop  = stop;
+    }
+
+
+
+    public Map<String,String> provideInfoDataToFragment2(){
+        Map<String,String> data = new HashMap<>();
+        data.put("route_id",selectedBusRoute.getId()) ;
+        data.put("bus_name",selectedBusRoute.getShortName()) ;
+        data.put("direction",""+ directionsList.get(directionId) ) ;
+        data.put("direction_id",""+directionId) ;
+
+        return data ;
+    }
+
+
+    public Map<String,String> provideInfoDataToFragment3(){
+
+        SimpleDateFormat format1=new SimpleDateFormat("dd/MM/yyyy");
+        Date dt1= null;
+        try { dt1 = format1.parse(selectedDate); } catch (ParseException e) { e.printStackTrace();}
+
+        DateFormat format2=new SimpleDateFormat("EEEE", Locale.US);
+
+        String finalDay = format2.format(dt1);
+
+        Map<String,String> data = provideInfoDataToFragment2() ;
+
+        data.put("stop_id",selectedStop.getId()) ;
+        data.put("stop",selectedStop.getName()) ;
+        data.put("day",""+finalDay) ;
+        data.put("arrival_time",""+full_time) ;
+
+        return data ;
+    }
+
+
+
+
+    /**
+     * Gets informations from Fragment3 and share them with other Fragments
+     * @param stopTime, selected StopTime in Fragment3
+     */
+    public void saveInfoFromFragment_3(StopTime stopTime){
+        this.selectedStopTime  = stopTime;
+
+        Log.i("Info","Info from Fragment3  : stop_time = "+stopTime.getArrivalTime() );
+    }
+
+
+    public Map<String,String> provideInfoDataToFragment4(){
+
+        SimpleDateFormat format1=new SimpleDateFormat("dd/MM/yyyy");
+        Date dt1= null;
+        try { dt1 = format1.parse(selectedDate); } catch (ParseException e) { e.printStackTrace();}
+
+        DateFormat format2=new SimpleDateFormat("EEEE", Locale.US);
+
+        String finalDay = format2.format(dt1);
+
+        Map<String,String> data = new HashMap<>();
+        data.put("route_id",selectedBusRoute.getId()) ;
+        data.put("stop_id",selectedStop.getId()) ;
+        data.put("direction_id",""+directionId) ;
+        data.put("day",""+finalDay) ;
+        data.put("arrival_time",""+full_time) ;
+
+        Log.i("Info","Info for Fragment3  : arrival_time = "+full_time );
+
+
+        return data ;
+    }
+
+
+
+
+
+
 
 
 

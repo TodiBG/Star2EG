@@ -84,7 +84,7 @@ public class Fragment3 extends Fragment {
                 StopTime stopTime = stopTimeList.get(position) ;
 
                 activity.saveInfoFromFragment_3(stopTime);
-               // activity.goToNextFragment(2) ;
+               activity.goToNextFragment(3) ;
             }
         });
 
@@ -111,10 +111,10 @@ public class Fragment3 extends Fragment {
 
                 do {
                      StopTime item = new StopTime(
-                             cursor.getInt(cursor.getColumnIndex(StarContract.StopTimes.StopTimeColumns.TRIP_ID)),
+                             cursor.getString(cursor.getColumnIndex(StarContract.StopTimes.StopTimeColumns.TRIP_ID)),
                              cursor.getString(cursor.getColumnIndex(StarContract.StopTimes.StopTimeColumns.ARRIVAL_TIME)),
                              cursor.getString(cursor.getColumnIndex(StarContract.StopTimes.StopTimeColumns.DEPARTURE_TIME)),
-                             cursor.getInt(cursor.getColumnIndex(StarContract.StopTimes.StopTimeColumns.STOP_ID)),
+                             cursor.getString(cursor.getColumnIndex(StarContract.StopTimes.StopTimeColumns.STOP_ID)),
                              cursor.getString(cursor.getColumnIndex(StarContract.StopTimes.StopTimeColumns.STOP_SEQUENCE))
                      );
 

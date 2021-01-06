@@ -30,6 +30,7 @@ import java.util.Map;
 import fr.istic.mob.star2eg.fragments.Fragment1;
 import fr.istic.mob.star2eg.fragments.Fragment2;
 import fr.istic.mob.star2eg.fragments.Fragment3;
+import fr.istic.mob.star2eg.fragments.Fragment4;
 import fr.istic.mob.star2eg.modeles.BusRoute;
 import fr.istic.mob.star2eg.modeles.StarContract;
 import fr.istic.mob.star2eg.modeles.Stop;
@@ -38,7 +39,6 @@ import fr.istic.mob.star2eg.modeles.StopTime;
 public class MainActivity extends AppCompatActivity {
 
     private static List<Fragment> fragmentsList= new ArrayList<>() ;
-    private static int NB_FRAGMENTS = 3 ;
 
 
     private String selectedDate ;
@@ -59,6 +59,7 @@ public class MainActivity extends AppCompatActivity {
         fragmentsList.add(new Fragment1(this));
         fragmentsList.add(new Fragment2(this));
         fragmentsList.add(new Fragment3(this));
+        fragmentsList.add(new Fragment4(this));
 
         selectFragment(fragmentsList.get(0));
 
@@ -148,30 +149,16 @@ public class MainActivity extends AppCompatActivity {
      */
     public void saveInfoFromFragment_3(StopTime stopTime){
         this.selectedStopTime  = stopTime;
-
-        Log.i("Info","Info from Fragment3  : stop_time = "+stopTime.getArrivalTime() );
     }
+
 
 
     public Map<String,String> provideInfoDataToFragment4(){
 
-        SimpleDateFormat format1=new SimpleDateFormat("dd/MM/yyyy");
-        Date dt1= null;
-        try { dt1 = format1.parse(selectedDate); } catch (ParseException e) { e.printStackTrace();}
+        Map<String,String> data = provideInfoDataToFragment3() ;
 
-        DateFormat format2=new SimpleDateFormat("EEEE", Locale.US);
-
-        String finalDay = format2.format(dt1);
-
-        Map<String,String> data = new HashMap<>();
-        data.put("route_id",selectedBusRoute.getId()) ;
-        data.put("stop_id",selectedStop.getId()) ;
-        data.put("direction_id",""+directionId) ;
-        data.put("day",""+finalDay) ;
-        data.put("arrival_time",""+full_time) ;
-
-        Log.i("Info","Info for Fragment3  : arrival_time = "+full_time );
-
+        data.put("trip_id",selectedStopTime.getTripId()) ;
+        data.put("hour",selectedStopTime.getArrivalTime()) ;
 
         return data ;
     }
@@ -214,7 +201,7 @@ public class MainActivity extends AppCompatActivity {
      * @throws IllegalArgumentException, The value of parameter fragmentIndex must be between -1 and "+NB_FRAGMENTS+". "
      */
     public static Fragment getFragment(int fragmentIndex) throws IllegalArgumentException {
-        if(fragmentIndex >= NB_FRAGMENTS || fragmentIndex < 0  ){ throw new IllegalArgumentException("The value of parameter fragmentIndex must be between -1 and "+NB_FRAGMENTS+". ") ; }
+        if(fragmentIndex >= fragmentsList.size() || fragmentIndex < 0  ){ throw new IllegalArgumentException("The value of parameter fragmentIndex must be between -1 and "+fragmentsList.size()+". ") ; }
         return fragmentsList.get(fragmentIndex) ;
     }
 
@@ -229,7 +216,7 @@ public class MainActivity extends AppCompatActivity {
 
 
     public void goToNextFragment(int fragmentIndex) throws IllegalArgumentException {
-        if(fragmentIndex >= NB_FRAGMENTS || fragmentIndex < 0  ){ throw new IllegalArgumentException("The value of parameter fragmentIndex must be between -1 and "+NB_FRAGMENTS+". ") ; }
+        if(fragmentIndex >= fragmentsList.size() || fragmentIndex < 0  ){ throw new IllegalArgumentException("The value of parameter fragmentIndex must be between -1 and "+fragmentsList.size()+". ") ; }
 
         FragmentTransaction fragmentTransaction = getSupportFragmentManager().beginTransaction() ;
         fragmentTransaction.setCustomAnimations(R.anim.enter_right_to_left,R.anim.exit_right_to_left,R.anim.enter_left_to_right, R.anim.exit_left_to_right)
@@ -238,7 +225,7 @@ public class MainActivity extends AppCompatActivity {
     }
 
     public void goToPreviousFragment(int fragmentIndex) throws IllegalArgumentException {
-        if(fragmentIndex >= NB_FRAGMENTS || fragmentIndex < 0  ){ throw new IllegalArgumentException("The value of parameter fragmentIndex must be between -1 and "+NB_FRAGMENTS+". ") ; }
+        if(fragmentIndex >= fragmentsList.size() || fragmentIndex < 0  ){ throw new IllegalArgumentException("The value of parameter fragmentIndex must be between -1 and "+fragmentsList.size()+". ") ; }
 
         FragmentTransaction fragmentTransaction = getSupportFragmentManager().beginTransaction() ;
         fragmentTransaction.setCustomAnimations(R.anim.enter_left_to_right, R.anim.exit_left_to_right,R.anim.enter_right_to_left,R.anim.exit_right_to_left)

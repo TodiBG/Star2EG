@@ -7,13 +7,13 @@ package fr.istic.mob.star2eg.modeles;
 
 public class StopTime {
 
-    private int tripId;
+    private String tripId;
     private String arrivalTime;
     private String departureTme;
-    private int stopId;
+    private String stopId;
     private String StopSequence;
 
-    public StopTime(int tripId, String arrivalTime, String departureTme, int stopId, String stopSequence) {
+    public StopTime(String tripId, String arrivalTime, String departureTme, String stopId, String stopSequence) {
         this.tripId = tripId;
         this.arrivalTime = arrivalTime;
         this.departureTme = departureTme;
@@ -21,11 +21,11 @@ public class StopTime {
         StopSequence = stopSequence;
     }
 
-    public int getTripId() {
+    public String getTripId() {
         return tripId;
     }
 
-    public void setTripId(int tripId) {
+    public void setTripId(String tripId) {
         this.tripId = tripId;
     }
 
@@ -45,11 +45,11 @@ public class StopTime {
         this.departureTme = departureTme;
     }
 
-    public int getStopId() {
+    public String getStopId() {
         return stopId;
     }
 
-    public void setStopId(int stopId) {
+    public void setStopId(String stopId) {
         this.stopId = stopId;
     }
 

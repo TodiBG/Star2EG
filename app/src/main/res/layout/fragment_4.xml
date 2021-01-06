@@ -1,0 +1,193 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".fragments.Fragment1"
+    android:orientation="vertical">
+
+
+
+    <LinearLayout android:layout_height="wrap_content"
+        android:layout_width="match_parent"
+        android:orientation="vertical"
+        android:gravity="center_horizontal"
+        android:background="@android:color/holo_green_dark">
+
+        <LinearLayout android:layout_height="wrap_content"
+            android:layout_width="match_parent"
+            android:orientation="horizontal">
+            <Button android:id="@+id/back"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:text="@string/back"
+                android:gravity="center"/>
+        </LinearLayout>
+
+        <LinearLayout android:layout_height="wrap_content"
+            android:layout_width="match_parent"
+            android:orientation="vertical"
+            android:paddingVertical="20dp"
+            android:paddingLeft="20dp">
+
+
+            <LinearLayout android:layout_height="wrap_content"
+                android:layout_width="match_parent"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/line"
+                    android:textSize="23dp"
+                    android:textColor="@android:color/secondary_text_dark"
+                    android:textStyle="bold" />
+
+                <TextView android:id="@+id/bus_route"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="C1 line "
+                    android:textSize="30dp"
+                    android:layout_marginLeft="20dp"
+                    android:textColor="@android:color/black"
+                    android:textStyle="bold" />
+
+            </LinearLayout>
+
+
+
+            <LinearLayout android:layout_height="wrap_content"
+                android:layout_width="match_parent"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/direction"
+                    android:textSize="20dp"
+                    android:textColor="@android:color/secondary_text_dark"
+                    android:textStyle="bold" />
+
+                <TextView android:id="@+id/bus_direction"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="C1 direction"
+                    android:textSize="20dp"
+                    android:layout_marginLeft="20dp"
+                    android:textColor="@android:color/black"
+                    android:textStyle="bold" />
+
+             </LinearLayout>
+
+
+
+            <LinearLayout android:layout_height="wrap_content"
+                android:layout_width="match_parent"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/stop"
+                    android:textSize="20dp"
+                    android:textColor="@android:color/secondary_text_dark"
+                    android:textStyle="bold" />
+
+                <TextView android:id="@+id/stop"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Donzelot Stop"
+                    android:textSize="20dp"
+                    android:layout_marginLeft="20dp"
+                    android:textStyle="bold" />
+
+            </LinearLayout>
+
+
+
+
+
+
+
+
+        </LinearLayout>
+
+
+        <LinearLayout
+            android:layout_height="wrap_content"
+            android:layout_width="match_parent">
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/suite_chemin"
+                android:textSize="18dp"
+                android:textStyle="bold"
+                android:textColor="@android:color/white"
+                android:gravity="center"
+                android:background="@android:color/holo_green_light"/>
+
+        </LinearLayout>
+
+
+
+        <LinearLayout android:id="@+id/textViewItemNameParent"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:paddingVertical="12dp"
+            android:background="@android:color/holo_green_light"
+            android:paddingLeft="20dp">
+
+            <TextView
+                android:id="@+id/textView_item_name"
+                android:layout_width="220dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:textColor="@android:color/black"
+                android:text="@string/stop_head"
+                android:textSize="23dp"/>
+
+            <TextView
+                android:id="@+id/textView_item_hour"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:textColor="@android:color/black"
+                android:text="@string/hour_head"
+                android:textSize="23dp"/>
+
+
+        </LinearLayout>
+
+
+
+
+
+
+
+
+
+    </LinearLayout>
+
+
+
+
+
+
+
+
+    <LinearLayout android:layout_height="wrap_content"
+        android:layout_width="match_parent"
+        android:orientation="vertical"
+        android:layout_marginTop="2dp">
+
+        <ListView android:id="@+id/listView"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:textSize="22dp"
+            android:gravity="center" />
+    </LinearLayout>
+
+
+</LinearLayout>

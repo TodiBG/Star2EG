@@ -12,4 +12,10 @@
     <string name="direction">Direction  : </string>
     <string name="select_stop_time">SELECT A STOP TIME </string>
     <string name="stop">Stop  : </string>
+    <string name="stop_head">Stops </string>
+    <string name="hour_head">Hours</string>
+    <string name="suite_chemin"> The rest of journey </string>
+
+
+
 </resources>

@@ -54,12 +54,6 @@ public class Fragment2 extends Fragment {
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
 
-
-        getView().findViewById(R.id.back).setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) { activity.goToPreviousFragment(0); }
-        });
-
         listView = (ListView)getView().findViewById(R.id.listView) ;
         line = (TextView)getView().findViewById(R.id.bus_route) ;
         direction = (TextView)getView().findViewById(R.id.bus_direction) ;

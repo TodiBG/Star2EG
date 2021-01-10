@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">Star2EG</string>
+    <string name="next">Suivant</string>
+    <string name="back">Retour</string>
+    <string name="select_time_and_date">SELECTIONNEZ L\'HEURE ET LA DATE</string>
+    <string name="select_date">Choisir la date</string>
+    <string name="select_time">Choisir l\'heure</string>
+    <string name="select_bus_route">SELECTIONNEZ LA LIGNE DE BUS</string>
+    <string name="select_bus_direction">SELECTIONNEZ LA DIRECTION</string>
+    <string name="select_bus_stop">SELECTIONNEZ L\'ARRET</string>
+    <string name="line">Ligne:</string>
+    <string name="direction">Direction:</string>
+    <string name="select_stop_time">SELECTIONNEZ L\'HEURE DU DEPART</string>
+    <string name="stop">Arrêt</string>
+    <string name="stop_head">Arrêts</string>
+    <string name="hour_head">Heures</string>
+    <string name="suite_chemin">Le reste du trajet</string>
+    <string name="selected_line">Ligne selectionnée</string>
+    <string name="search_info">Saisir un nom d\'arrêt</string>
+    <string name="dialog_label">les lignes de bus passant par cet arrêt</string>
+    <string name="dialog_consign">choisir une ligne de bus</string>
+    <string name="select_date_and_time">choisir une date et une heure!</string>
+    <string name="select_bus">choisir une ligne de bus!</string>
+</resources>

@@ -58,6 +58,7 @@ public class MainActivity extends AppCompatActivity implements androidx.appcompa
     private int directionId = 0 ;
     private Stop selectedStop ;
     private StopTime selectedStopTime ;
+    private int current_fagment_index = 0 ;
 
 
 
@@ -236,7 +237,7 @@ public class MainActivity extends AppCompatActivity implements androidx.appcompa
 
     public void goToNextFragment(int fragmentIndex) throws IllegalArgumentException {
         if(fragmentIndex >= fragmentsList.size() || fragmentIndex < 0  ){ throw new IllegalArgumentException("The value of parameter fragmentIndex must be between -1 and "+fragmentsList.size()+". ") ; }
-
+        current_fagment_index = fragmentIndex ;
         FragmentTransaction fragmentTransaction = getSupportFragmentManager().beginTransaction() ;
         fragmentTransaction.setCustomAnimations(R.anim.enter_right_to_left,R.anim.exit_right_to_left,R.anim.enter_left_to_right, R.anim.exit_left_to_right)
                 .replace(R.id.frameLayout, getFragment(fragmentIndex)) ;
@@ -245,7 +246,7 @@ public class MainActivity extends AppCompatActivity implements androidx.appcompa
 
     public void goToPreviousFragment(int fragmentIndex) throws IllegalArgumentException {
         if(fragmentIndex >= fragmentsList.size() || fragmentIndex < 0  ){ throw new IllegalArgumentException("The value of parameter fragmentIndex must be between -1 and "+fragmentsList.size()+". ") ; }
-
+        current_fagment_index = fragmentIndex ;
         FragmentTransaction fragmentTransaction = getSupportFragmentManager().beginTransaction() ;
         fragmentTransaction.setCustomAnimations(R.anim.enter_left_to_right, R.anim.exit_left_to_right,R.anim.enter_right_to_left,R.anim.exit_right_to_left)
                 .replace(R.id.frameLayout, getFragment(fragmentIndex)) ;
@@ -284,6 +285,30 @@ public class MainActivity extends AppCompatActivity implements androidx.appcompa
     public boolean onClose() {
         return false;
     }
+
+
+    @Override
+    public boolean onKeyDown(int keyCode, KeyEvent event) {
+        if (keyCode == KeyEvent.KEYCODE_BACK && event.getRepeatCount() == 0) {
+            event.startTracking();
+            return true;
+        }
+        return super.onKeyDown(keyCode, event);
+    }
+
+    @Override
+    public boolean onKeyUp(int keyCode, KeyEvent event) {
+        if (keyCode == KeyEvent.KEYCODE_BACK && event.isTracking() && !event.isCanceled()) {
+            if(current_fagment_index > 0 ) {     current_fagment_index -- ;
+                goToPreviousFragment(current_fagment_index) ;
+            }
+
+            return true;
+        }
+        return super.onKeyUp(keyCode, event);
+    }
+
+
     
 
 }

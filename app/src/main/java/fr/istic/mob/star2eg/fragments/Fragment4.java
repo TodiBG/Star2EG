@@ -49,13 +49,6 @@ public class Fragment4 extends Fragment {
         super.onActivityCreated(savedInstanceState);
 
 
-        getView().findViewById(R.id.back).setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                activity.goToPreviousFragment(1);
-            }
-        });
-
         line = (TextView)getView().findViewById(R.id.bus_route) ;
         direction = (TextView)getView().findViewById(R.id.bus_direction) ;
         stopTextView = (TextView)getView().findViewById(R.id.stop) ;

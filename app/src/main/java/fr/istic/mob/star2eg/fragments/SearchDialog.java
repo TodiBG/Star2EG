@@ -49,6 +49,7 @@ public class SearchDialog extends Dialog {
 
         BusRouteAdapter adapter = new BusRouteAdapter(this.activity,
                 R.layout.bus_route_adapter_item,
+                R.layout.bus_route_adapter_item2,
                 R.id.textViewItemNameParent,
                 R.id.textView_item_name,
                 R.id.direction1,
@@ -76,6 +77,8 @@ public class SearchDialog extends Dialog {
         Cursor cursor = this.activity.getContentResolver().query(StarContract.RoutesForStop.CONTENT_URI, null, null, selectionArgs, StarContract.Stops.StopColumns.STOP_ID);
 
         List<BusRoute> busRoutes = new ArrayList<>();
+        busRoutes.add(new BusRoute("","","","","","","")) ;
+
 
         if( cursor != null) {
             while (cursor.moveToNext()) {

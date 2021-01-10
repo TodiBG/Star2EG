@@ -21,5 +21,7 @@
     <string name="dialog_label"> The bus line that pass by stop :  </string>
 
     <string name="dialog_consign"> Select a bus line </string>
+    <string name="select_date_and_time"> Select date and time ! </string>
+    <string name="select_bus"> Select a bus line ! </string>
 
 </resources>

@@ -97,7 +97,10 @@ public class Fragment3 extends Fragment {
 
         Map<String,String> data =  this.activity.provideInfoDataToFragment3();
 
-        String[] selectionArgs = {data.get("route_id"),data.get("stop_id"),data.get("direction_id"),data.get("day"),data.get("arrival_time") };
+        // Log.i("TEST","route_id : "+data.get("route_id")+", stop_id : "+data.get("stop_id")+", direction_id : "+data.get("direction_id")+", day : "+data.get("day")+", arrival_time : "+data.get("arrival_time") ) ;
+
+
+         String[] selectionArgs = {data.get("route_id"),data.get("stop_id"),data.get("direction_id"),data.get("day"),data.get("arrival_time") };
 
         Cursor cursor = this.activity.getContentResolver().query(StarContract.StopTimes.CONTENT_URI, null, null, selectionArgs,StarContract.StopTimes.StopTimeColumns.ARRIVAL_TIME);
 
@@ -122,6 +125,9 @@ public class Fragment3 extends Fragment {
                  } while (cursor.moveToNext());
              }
          }
+
+
+         //Log.i("TEST","stopTimes : "+stopTimes.size() ) ;
 
 
         return  stopTimes ;

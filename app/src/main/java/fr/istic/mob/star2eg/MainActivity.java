@@ -14,6 +14,7 @@ import android.database.Cursor;
 import android.net.Uri;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.KeyEvent;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.View;
@@ -213,34 +214,6 @@ public class MainActivity extends AppCompatActivity implements androidx.appcompa
 
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
     /**
      @param fragmentIndex
       * @return a found Fragment
@@ -266,7 +239,7 @@ public class MainActivity extends AppCompatActivity implements androidx.appcompa
 
         FragmentTransaction fragmentTransaction = getSupportFragmentManager().beginTransaction() ;
         fragmentTransaction.setCustomAnimations(R.anim.enter_right_to_left,R.anim.exit_right_to_left,R.anim.enter_left_to_right, R.anim.exit_left_to_right)
-                .replace(R.id.frameLayout, MainActivity.getFragment(fragmentIndex)) ;
+                .replace(R.id.frameLayout, getFragment(fragmentIndex)) ;
         fragmentTransaction.commit() ;
     }
 
@@ -275,7 +248,7 @@ public class MainActivity extends AppCompatActivity implements androidx.appcompa
 
         FragmentTransaction fragmentTransaction = getSupportFragmentManager().beginTransaction() ;
         fragmentTransaction.setCustomAnimations(R.anim.enter_left_to_right, R.anim.exit_left_to_right,R.anim.enter_right_to_left,R.anim.exit_right_to_left)
-                .replace(R.id.frameLayout, MainActivity.getFragment(fragmentIndex)) ;
+                .replace(R.id.frameLayout, getFragment(fragmentIndex)) ;
         fragmentTransaction.commit() ;
     }
 
@@ -311,5 +284,6 @@ public class MainActivity extends AppCompatActivity implements androidx.appcompa
     public boolean onClose() {
         return false;
     }
+    
 
 }

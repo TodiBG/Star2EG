@@ -16,6 +16,7 @@ import android.widget.SearchView;
 import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.TimePicker;
+import android.widget.Toast;
 
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
@@ -69,8 +70,26 @@ public class Fragment1 extends Fragment {
         this.next.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                activity.saveInfoFromFragment_1(date.getText().toString(),full_time,selectedBusRoute, directionsList, directionId) ;
-                activity.goToNextFragment(1) ;
+
+                boolean everything_is_ok = true ;
+
+                if( date.getText().toString().equals("") || time.getText().toString().equals("") ){
+                    everything_is_ok = false ;
+                    Toast.makeText(getContext(), R.string.select_date_and_time, Toast.LENGTH_SHORT).show() ;
+                }
+
+                if( spinner_bus_line.getSelectedItemPosition() == 0 ){
+                    everything_is_ok = false ;
+                    Toast.makeText(getContext(), R.string.select_bus, Toast.LENGTH_SHORT).show() ;
+                }
+
+                if( everything_is_ok ){
+                    activity.saveInfoFromFragment_1(date.getText().toString(),full_time,selectedBusRoute, directionsList, directionId) ;
+                    activity.goToNextFragment(1) ;
+                }
+
+
+
             }
         });
 
@@ -92,13 +111,11 @@ public class Fragment1 extends Fragment {
 
 
 
-
-        this.next.setVisibility(View.INVISIBLE);
-
         listBusRoute =  getBusRoute() ;
         // Adapter"
         BusRouteAdapter adapter = new BusRouteAdapter(this.activity,
                 R.layout.bus_route_adapter_item,
+                R.layout.bus_route_adapter_item2,
                 R.id.textViewItemNameParent,
                 R.id.textView_item_name,
                 R.id.direction1,
@@ -161,10 +178,6 @@ public class Fragment1 extends Fragment {
             time.setText(full_time);
 
 
-
-            if(!date.getText().toString().equals("")){
-                spinner_bus_line.setEnabled(true);
-            }
         }
     };
 
@@ -194,7 +207,6 @@ public class Fragment1 extends Fragment {
     } ;
 
 
-    boolean not_execution_line_listener = false ;
    AdapterView.OnItemSelectedListener  bus_line_listener  = new AdapterView.OnItemSelectedListener() {
        @Override
        public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
@@ -211,34 +223,30 @@ public class Fragment1 extends Fragment {
            if( length > 1 ){
                directionsList.add(splitArray[length-1]);
                directionsList.add(splitArray[0]);
+
+
+               ArrayAdapter<String> arrayAdapte  = new ArrayAdapter<>(getActivity(), R.layout.item, directionsList) ;
+               arrayAdapte.setDropDownViewResource(android.R.layout.simple_expandable_list_item_1);
+               spinner_direction.setAdapter(arrayAdapte);
+
+           }else {
+               directionsList = new ArrayList<>() ;
+               ArrayAdapter<String> arrayAdapte  = new ArrayAdapter<>(getActivity(), R.layout.item, directionsList) ;
+               arrayAdapte.setDropDownViewResource(android.R.layout.simple_expandable_list_item_1);
+               spinner_direction.setAdapter(arrayAdapte);
            }
 
-
-           if(not_execution_line_listener) {
-               spinner_direction.setEnabled(true);
-           }
-           not_execution_line_listener = true ;
-
-
-           ArrayAdapter<String> arrayAdapte  = new ArrayAdapter<>(getActivity(), R.layout.item, directionsList) ;
-           arrayAdapte.setDropDownViewResource(android.R.layout.simple_expandable_list_item_1);
-           spinner_direction.setAdapter(arrayAdapte);
        }
 
        @Override
        public void onNothingSelected(AdapterView<?> parent) {  }
    };
 
-    boolean not_execution_direction_listener = false ;
+
     AdapterView.OnItemSelectedListener  direction_listener  = new AdapterView.OnItemSelectedListener() {
         @Override
         public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
             directionId = position ;
-            if( not_execution_direction_listener){
-                next.setVisibility(View.VISIBLE);
-            }
-
-            not_execution_direction_listener = true ;
         }
 
         @Override
@@ -251,6 +259,9 @@ public class Fragment1 extends Fragment {
     public  List<BusRoute> getBusRoute() {
         Cursor cursor = this.activity.getContentResolver().query(StarContract.BusRoutes.CONTENT_URI, null, null, null,null);
         List<BusRoute> busRoutes = new ArrayList<>();
+
+        busRoutes.add(new BusRoute("","","","","","","")) ;
+
 
         if( cursor != null) {
           while (cursor.moveToNext()) {
@@ -289,20 +300,13 @@ public class Fragment1 extends Fragment {
                         listStops.add(cursor.getString(cursor.getColumnIndex(StarContract.Stops.StopColumns.NAME)) );
                 } while (cursor.moveToNext());
             }
-            /**
-             * Eliminate duplicates
 
-            int lastIndex = listStops.size() ;
-            String stop_name = "" ;
-            for(int i = 0 ; i<listStops.size();i++ ) {
-                if( i == 0){ stop_name =   listStops.get(0) ;  }
-                if( (i != 0)&& (listStops.get(i).equals(stop_name)) ){ lastIndex = i ; }
-            } */
         }
 
 
         return listStops ;
     }
+
 
 
 

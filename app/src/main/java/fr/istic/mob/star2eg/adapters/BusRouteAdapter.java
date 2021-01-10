@@ -20,12 +20,16 @@ public class BusRouteAdapter extends BaseAdapter {
     private int listItemLayoutResource;
     private int textViewItemShortName;
     private  int textViewItemNameParent ;
+    private int direction1 = 0;
+    private int direction2 = 0 ;
 
 
-    public BusRouteAdapter(Activity context, int listItemLayoutResource, int textViewItemNameParent, int textViewItemName,List<BusRoute> list) {
+    public BusRouteAdapter(Activity context, int listItemLayoutResource, int textViewItemNameParent, int textViewItemName, int direction1 , int direction2 ,List<BusRoute> list) {
         this.listItemLayoutResource = listItemLayoutResource;
         this.textViewItemNameParent = textViewItemNameParent ;
         this.textViewItemShortName = textViewItemName;
+        this.direction1 = direction1 ;
+        this.direction2 = direction2 ;
         this.listBusRoutes = list;
         this.flater = context.getLayoutInflater();
     }
@@ -61,13 +65,26 @@ public class BusRouteAdapter extends BaseAdapter {
 
         TextView textViewItemName = (TextView) rowView.findViewById(this.textViewItemShortName);
 
-        LinearLayout linearLayout = (LinearLayout) rowView.findViewById(this.textViewItemNameParent); ;
+        LinearLayout linearLayout = (LinearLayout) rowView.findViewById(this.textViewItemNameParent);
 
         textViewItemName.setText(busRoute.getShortName());
         textViewItemName.setTextColor(Color.parseColor("#"+busRoute.getTextColor()));
 
         linearLayout.setBackgroundColor(Color.parseColor("#"+busRoute.getColor()));
 
+        TextView dir1 = (TextView) rowView.findViewById(this.direction1);
+        TextView dir2 = (TextView) rowView.findViewById(this.direction2);
+
+
+        String[]dirs = busRoute.getLongName().split("<>") ;
+
+        if(dirs.length> 0){
+            dir1.setText(dirs[0]);
+        }
+
+        if(dirs.length> 1){
+            dir2.setText(dirs[dirs.length-1] );
+        }
 
         return rowView;
     }

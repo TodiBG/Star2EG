@@ -100,7 +100,7 @@ public class Fragment2 extends Fragment {
 
 
 
-    public List<Stop> getStop(String busRouteId, String direnctionId){
+    private List<Stop> getStop(String busRouteId, String direnctionId){
         List<Stop> listStops = new ArrayList<>() ;
         String[] selectionArgs = {busRouteId, direnctionId};
         Cursor cursor = this.activity.getContentResolver().query(StarContract.Stops.CONTENT_URI, null, null, selectionArgs,StarContract.Stops.StopColumns.STOP_ID);
@@ -120,7 +120,21 @@ public class Fragment2 extends Fragment {
                 //idtrips.add(cursor.getString(cursor.getColumnIndex(StarContract.Trips.TripColumns.TRIP_ID))) ;
             } while (cursor.moveToNext());
         }
-        return  listStops ;
+
+
+        /**
+         * Eliminate duplicates
+         */
+        int lastIndex = listStops.size() ;
+        String stop_name = "" ;
+        for(int i = 0 ; i<listStops.size();i++ ) {
+            if( i == 0){ stop_name =   listStops.get(0).getName() ;  }
+
+            if( (i != 0)&& (listStops.get(i).getName().equals(stop_name)) ){ lastIndex = i ; }
+
+        }
+
+        return  listStops.subList(0,lastIndex) ;
     }
 
 

@@ -15,7 +15,11 @@
     <string name="stop_head">Stops </string>
     <string name="hour_head">Hours</string>
     <string name="suite_chemin"> The rest of journey </string>
+    <string name="selected_line"> Selected Line  :  </string>
+    <string name="search_info"> Type stop name </string>
 
+    <string name="dialog_label"> The bus line that pass by stop :  </string>
 
+    <string name="dialog_consign"> Select a bus line </string>
 
 </resources>

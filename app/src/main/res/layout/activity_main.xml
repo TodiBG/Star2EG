@@ -1,17 +1,24 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+xmlns:tools="http://schemas.android.com/tools"
+android:id="@+id/root_layout"
+android:layout_width="match_parent"
+android:layout_height="match_parent"
+tools:context="fr.istic.mob.star2eg.MainActivity">
+
+<FrameLayout android:layout_height="match_parent"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    tools:context=".MainActivity"
-    android:orientation="vertical">
+    android:id="@+id/frameLayout">
+</FrameLayout>
 
+<ListView
+    android:id="@+id/found_stop_list_view"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:visibility="invisible"
+    android:backgroundTint="#513B48"
+    android:background="@android:color/white"
+    android:divider="@android:drawable/divider_horizontal_bright"
+    tools:ignore="MissingConstraints" />
 
-    <FrameLayout android:layout_height="match_parent"
-        android:layout_width="match_parent"
-        android:id="@+id/frameLayout">
-
-    </FrameLayout>
-
-</LinearLayout>
+</androidx.constraintlayout.widget.ConstraintLayout>

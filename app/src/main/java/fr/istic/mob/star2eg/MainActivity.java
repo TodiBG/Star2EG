@@ -1,20 +1,27 @@
 package fr.istic.mob.star2eg;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.SearchView;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentTransaction;
 
+import android.app.Activity;
 import android.app.DatePickerDialog;
+import android.app.SearchManager;
 import android.app.TimePickerDialog;
+import android.content.Context;
 import android.database.Cursor;
 import android.net.Uri;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.Menu;
+import android.view.MenuInflater;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ListView;
 import android.widget.Spinner;
 
 import java.text.DateFormat;
@@ -27,20 +34,22 @@ import java.util.List;
 import java.util.Locale;
 import java.util.Map;
 
+import fr.istic.mob.star2eg.adapters.SearchAdapter;
 import fr.istic.mob.star2eg.fragments.Fragment1;
 import fr.istic.mob.star2eg.fragments.Fragment2;
 import fr.istic.mob.star2eg.fragments.Fragment3;
 import fr.istic.mob.star2eg.fragments.Fragment4;
+import fr.istic.mob.star2eg.fragments.SearchDialog;
 import fr.istic.mob.star2eg.modeles.BusRoute;
 import fr.istic.mob.star2eg.modeles.StarContract;
 import fr.istic.mob.star2eg.modeles.Stop;
 import fr.istic.mob.star2eg.modeles.StopTime;
 
-public class MainActivity extends AppCompatActivity {
+public class MainActivity extends AppCompatActivity implements androidx.appcompat.widget.SearchView.OnQueryTextListener, androidx.appcompat.widget.SearchView.OnCloseListener {
 
     private static List<Fragment> fragmentsList= new ArrayList<>() ;
 
-
+    private ListView found_stop_list_view  ;
     private String selectedDate ;
     private String full_time ;
     private BusRoute selectedBusRoute ;
@@ -51,12 +60,14 @@ public class MainActivity extends AppCompatActivity {
 
 
 
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+        found_stop_list_view = (ListView)findViewById(R.id.found_stop_list_view) ;
 
-        fragmentsList.add(new Fragment1(this));
+        fragmentsList.add(new Fragment1(this) );
         fragmentsList.add(new Fragment2(this));
         fragmentsList.add(new Fragment3(this));
         fragmentsList.add(new Fragment4(this));
@@ -64,18 +75,53 @@ public class MainActivity extends AppCompatActivity {
         selectFragment(fragmentsList.get(0));
 
 
+        found_stop_list_view.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                found_stop_list_view.setVisibility(View.INVISIBLE);
+                String stop = (String) found_stop_list_view.getItemAtPosition(position) ;
+                showDialog(stop) ;
 
-
-        /**
-         *
-         *
-         android:readPermission="stareg.permission.READ_STAR_PROVIDER"
-         android:writePermission="stareg.permission.WRITE_STAR_PROVIDER"
-         *
-         *
-         */
+            }
+        });
 
     }
+
+    private void showDialog (String stop){
+        SearchDialog d =  new SearchDialog(this,stop) ;
+        d.show();
+    }
+
+
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        MenuInflater inflater = getMenuInflater();
+        inflater.inflate(R.menu.menu_search, menu);
+
+        SearchManager searchManager =
+                (SearchManager) getSystemService(Context.SEARCH_SERVICE);
+        SearchView searchView = (SearchView) menu.findItem(R.id.search).getActionView();
+        searchView.setSearchableInfo(
+                searchManager.getSearchableInfo(getComponentName()));
+        searchView.setOnQueryTextListener(this);
+        searchView.setOnCloseListener(this);
+
+
+        return true;
+    }
+
+
+    public void setSelectedBusRoute(BusRoute bus){
+        this.selectedBusRoute = bus ;
+       Fragment1 f1 = (Fragment1) this.fragmentsList.get(0);
+       f1.displaySelectedBusName(bus) ;
+    }
+
+
+
+
+
 
 
     /**
@@ -235,7 +281,35 @@ public class MainActivity extends AppCompatActivity {
 
 
 
+    @Override
+    public boolean onQueryTextSubmit(String query) {
+        return false;
+    }
+
+    @Override
+    public boolean onQueryTextChange(String newText) {
+        Fragment1 fragment1 = (Fragment1) fragmentsList.get(0) ;
+        List<String> listStop_name = fragment1.searchStop(newText) ;
+
+        Log.i("TEST","listStop_name : "+listStop_name.size()) ;
+
+        SearchAdapter adapter =  new  SearchAdapter(this, R.layout.search_adapter_item, R.id.textView_item_name,listStop_name) ;
+
+        found_stop_list_view.setAdapter(adapter);
+        if (listStop_name.size() != 0) {
+            found_stop_list_view.setVisibility(View.VISIBLE);
+        } else {
+            found_stop_list_view.setVisibility(View.INVISIBLE);
+        }
 
 
+
+        return false;
+    }
+
+    @Override
+    public boolean onClose() {
+        return false;
+    }
 
 }

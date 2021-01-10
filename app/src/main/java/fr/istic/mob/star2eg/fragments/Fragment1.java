@@ -3,8 +3,6 @@ package fr.istic.mob.star2eg.fragments;
 import android.app.DatePickerDialog;
 import android.app.TimePickerDialog;
 import android.database.Cursor;
-import android.net.Uri;
-import android.os.Build;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -14,14 +12,13 @@ import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.DatePicker;
 import android.widget.EditText;
+import android.widget.SearchView;
 import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.TimePicker;
 
 import androidx.annotation.Nullable;
-import androidx.annotation.RequiresApi;
 import androidx.fragment.app.Fragment;
-import androidx.fragment.app.FragmentTransaction;
 
 import fr.istic.mob.star2eg.MainActivity;
 import fr.istic.mob.star2eg.R;
@@ -47,7 +44,9 @@ public class Fragment1 extends Fragment {
     private BusRoute selectedBusRoute ;
     private int directionId = 0 ;
     private List<String>  directionsList;
+    private TextView line_label ;
     private Button next ;
+
     public Fragment1(MainActivity activity){
         this.activity  = activity ;
     }
@@ -89,6 +88,8 @@ public class Fragment1 extends Fragment {
 
         spinner_bus_line = (Spinner)getView().findViewById(R.id.spinner_line) ;
         spinner_direction = (Spinner)getView().findViewById(R.id.spinner_direction) ;
+        line_label = (TextView) getView().findViewById(R.id.line) ;
+
 
 
 
@@ -100,12 +101,17 @@ public class Fragment1 extends Fragment {
                 R.layout.bus_route_adapter_item,
                 R.id.textViewItemNameParent,
                 R.id.textView_item_name,
+                R.id.direction1,
+                R.id.direction2,
                 this.listBusRoute);
 
         this.spinner_bus_line.setAdapter(adapter);
 
         this.spinner_bus_line.setOnItemSelectedListener(bus_line_listener);
         this.spinner_direction.setOnItemSelectedListener(direction_listener) ;
+
+
+
     }
 
 
@@ -163,6 +169,22 @@ public class Fragment1 extends Fragment {
     };
 
 
+    public void displaySelectedBusName(BusRoute bus){
+        line_label.setText(bus.getShortName());
+
+        int b = 0 ;
+        for(int i =0 ; i< listBusRoute.size(); i++){
+            if(listBusRoute.get(i).getId().equals(bus.getId())){
+                b = i ;
+                break;
+            }
+        }
+
+        spinner_bus_line.setSelection(b);
+
+    }
+
+
 
     View.OnClickListener timePicker = new View.OnClickListener() {
         @Override
@@ -178,6 +200,7 @@ public class Fragment1 extends Fragment {
        public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
 
            selectedBusRoute  = listBusRoute.get(position) ;
+           line_label.setText(selectedBusRoute.getShortName());
 
            directionsList = new ArrayList<>() ;
 
@@ -250,6 +273,37 @@ public class Fragment1 extends Fragment {
         cursor.close();
         return busRoutes;
     }
+
+
+
+    public List<String>  searchStop(String searchText){
+        searchText = searchText.trim() ;
+        List<String> listStops = new ArrayList<>();
+        if (!searchText.equals("")) {
+
+            String[] selectionArgs = {searchText};
+            Cursor cursor = this.activity.getContentResolver().query(StarContract.SearchedStops.CONTENT_URI, null, null, selectionArgs, StarContract.Stops.StopColumns.STOP_ID);
+
+            if (cursor.moveToFirst()) {
+                do {
+                        listStops.add(cursor.getString(cursor.getColumnIndex(StarContract.Stops.StopColumns.NAME)) );
+                } while (cursor.moveToNext());
+            }
+            /**
+             * Eliminate duplicates
+
+            int lastIndex = listStops.size() ;
+            String stop_name = "" ;
+            for(int i = 0 ; i<listStops.size();i++ ) {
+                if( i == 0){ stop_name =   listStops.get(0) ;  }
+                if( (i != 0)&& (listStops.get(i).equals(stop_name)) ){ lastIndex = i ; }
+            } */
+        }
+
+
+        return listStops ;
+    }
+
 
 
 

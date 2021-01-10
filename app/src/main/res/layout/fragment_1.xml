@@ -10,7 +10,7 @@
     <LinearLayout android:layout_height="wrap_content"
         android:layout_width="match_parent"
         android:orientation="vertical"
-        android:layout_marginTop="50dp">
+        android:layout_marginTop="20dp">
 
         <TextView
             android:layout_width="match_parent"
@@ -39,7 +39,7 @@
             android:layout_margin="8dp"
             android:background="#d4d4d4"
             android:hint="Select Date..."
-            android:padding="15dp"
+            android:padding="5dp"
             android:textColor="#897"
             android:textColorHint="#090"
             android:textSize="20sp"
@@ -54,7 +54,7 @@
             android:layout_margin="8dp"
             android:background="#d4d4d4"
             android:hint="Select Time..."
-            android:padding="15dp"
+            android:padding="5dp"
             android:textColor="#897"
             android:textColorHint="#090"
             android:textSize="23sp"
@@ -107,9 +107,49 @@
 
 
 
+        <LinearLayout android:layout_height="wrap_content"
+            android:layout_width="match_parent"
+            android:orientation="vertical"
+            android:layout_marginTop="20dp">
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text=""
+                android:textSize="22dp"
+                android:textStyle="bold"
+                android:layout_marginBottom="10dp"
+                android:gravity="center" />
+
+
+            <LinearLayout android:layout_height="wrap_content"
+                android:layout_width="match_parent"
+                android:orientation="horizontal"
+                android:layout_marginBottom="22dp"
+                android:gravity="center_horizontal">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/selected_line"
+                    android:textSize="22dp"
+                    android:layout_marginRight="20dp"
+                    android:textStyle="bold"
+                    android:gravity="center" />
+
+                <TextView android:id="@+id/line"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text=" ------"
+                    android:textSize="28dp"
+                    android:textColor="@android:color/holo_red_dark"
+                    android:textStyle="bold" />
+            </LinearLayout>
+
+
+        </LinearLayout>
+
     </LinearLayout>
-
-
 
 
 
@@ -152,21 +192,13 @@
             </Spinner>
         </LinearLayout>
 
-
-
     </LinearLayout>
-
-
-
-
-
-
 
 
     <LinearLayout android:layout_height="wrap_content"
         android:layout_width="match_parent"
         android:orientation="horizontal"
-        android:layout_marginTop="50dp"
+        android:layout_marginTop="20dp"
         android:gravity="center_horizontal">
 
         <Button
@@ -177,10 +209,6 @@
             android:gravity="center"/>
 
     </LinearLayout>
-
-
-
-
 
 
 

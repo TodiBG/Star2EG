@@ -66,6 +66,7 @@ public class SearchDialog extends Dialog {
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 BusRoute busRoute = (BusRoute) listView.getItemAtPosition(position) ;
                 activity.setSelectedBusRoute(busRoute);
+                activity.selectFragment(0);
                 dismiss();
             }
         });

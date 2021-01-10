@@ -74,7 +74,7 @@ public class MainActivity extends AppCompatActivity implements androidx.appcompa
         fragmentsList.add(new Fragment3(this));
         fragmentsList.add(new Fragment4(this));
 
-        selectFragment(fragmentsList.get(0));
+        selectFragment(0);
 
 
         found_stop_list_view.setOnItemClickListener(new AdapterView.OnItemClickListener() {
@@ -226,7 +226,8 @@ public class MainActivity extends AppCompatActivity implements androidx.appcompa
     }
 
 
-    public  void selectFragment(Fragment fragment){
+    public  void selectFragment(int fragmentIndex){
+        Fragment fragment = fragmentsList.get(0) ;
         FragmentTransaction fragmentTransaction =  getSupportFragmentManager().beginTransaction() ;
         fragmentTransaction.replace(R.id.frameLayout, fragment) ;
         fragmentTransaction.commit() ;
